@@ -7,9 +7,9 @@
 
 export default {
   NodeEnv: (process.env.NODE_ENV ?? ''),
-  Port: (process.env.PORT ?? 0),
+  Port: (process.env.PORT ?? 3001),
   CookieProps: {
-    Key: 'ExpressGeneratorTs',
+    Key: 'assignmentBackend',
     Secret: (process.env.COOKIE_SECRET ?? ''),
     // Casing to match express cookie options
     Options: {
