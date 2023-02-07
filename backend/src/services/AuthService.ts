@@ -1,4 +1,4 @@
-import UserRepo from '@src/repos/UserRepo';
+import UserRepo from '@src/repository/UserRepository';
 
 import PwdUtil from '@src/util/PwdUtil';
 import { tick } from '@src/util/misc';

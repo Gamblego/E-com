@@ -3,29 +3,23 @@ import { TAll } from 'jet-validator';
 
 // **** Variables **** //
 
-export enum UserRoles {
-  Standard,
-  Admin,
-}
-
 
 // **** Types **** //
 
-export interface IUser {
-  id: number;
-  name: string;
-  email: string;
-  pwdHash?: string;
-  role?: UserRoles;
+export interface User {
+  userId: string
+  isOwner?: boolean
+  firstName?: string,
+  lastName?: string,
+  email?: string,
+  countryCode?: number,
+  phoneNumber?: number,
+  address?: string,
+  city?: string,
+  state?: string,
+  country?: string,
+  pinCode?: number
 }
-
-export interface ISessionUser {
-  id: number;
-  email: string;
-  name: string;
-  role: IUser['role'];
-}
-
 
 // **** Functions **** //
 
@@ -33,30 +27,37 @@ export interface ISessionUser {
  * Get a new User object.
  */
 function new_(
-  name: string,
-  email: string,
-  role?: UserRoles,
-  pwdHash?: string,
-): IUser {
+  isOwner?: boolean,
+  firstName?: string,
+  lastName?: string,
+  email?: string,
+): User {
   return {
-    id: -1,
-    email,
-    name,
-    role: (role ?? UserRoles.Standard),
-    pwdHash: (pwdHash ?? ''),
+    userId: '',
+    isOwner: isOwner,
+    firstName: (firstName ?? ''),
+    lastName: (lastName ?? ''),
+    email: (email ?? '')
   };
 }
 
 /**
  * Copy a user object.
  */
-function copy(user: IUser): IUser {
+function copy(user: User): User {
   return {
-    id: user.id,
+    userId: user.userId,
+    isOwner: user.isOwner,
     email: user.email,
-    name: user.name,
-    role: user.role,
-    pwdHash: user.pwdHash,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    countryCode: user.countryCode,
+    phoneNumber: user.phoneNumber,
+    address: user.address,
+    city: user.city,
+    state: user.state,
+    country: user.country,
+    pinCode: user.pinCode
   };
 }
 
@@ -65,12 +66,7 @@ function copy(user: IUser): IUser {
  */
 function instanceOf(arg: TAll): boolean {
   return (
-    !!arg &&
-    typeof arg === 'object' &&
-    'id' in arg &&
-    'email' in arg &&
-    'name' in arg &&
-    'role' in arg
+    !!arg && typeof arg === 'object' && 'userId' in arg
   );
 }
 

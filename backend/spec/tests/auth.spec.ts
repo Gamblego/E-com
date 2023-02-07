@@ -2,7 +2,7 @@ import supertest, { SuperTest, Test, Response } from 'supertest';
 
 import app from '@src/server';
 
-import UserRepo from '@src/repos/UserRepo';
+import UserRepo from '@src/repository/UserRepository';
 import PwdUtil from '@src/util/PwdUtil';
 import User, { UserRoles } from '@src/models/User';
 import { Errors } from '@src/services/AuthService';

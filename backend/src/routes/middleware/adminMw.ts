@@ -1,5 +1,5 @@
 /**
- * Middleware to verify user logged in and is an an admin.
+ * Middleware to verify user logged in and is an admin.
  */
 
 import { Request, Response, NextFunction } from 'express';
@@ -9,7 +9,7 @@ import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 import EnvVars from '@src/constants/EnvVars';
 
 import SessionUtil from '@src/util/SessionUtil';
-import { ISessionUser, UserRoles } from '@src/models/User';
+import { SessionAccount, Privilege } from '@src/models/Account';
 
 
 // **** Variables **** //
@@ -19,7 +19,7 @@ const USER_UNAUTHORIZED_ERR = 'User not authorized to perform this action';
 
 // **** Types **** //
 
-type TSessionData = ISessionUser & JwtPayload;
+type TSessionData = SessionAccount & JwtPayload;
 
 
 // **** Functions **** //
@@ -37,7 +37,7 @@ async function adminMw(
   // Set session data to locals
   if (
     typeof sessionData === 'object' &&
-    sessionData?.role === UserRoles.Admin
+    sessionData?.role === Privilege.Admin
   ) {
     res.locals.sessionUser = sessionData;
     return next();
