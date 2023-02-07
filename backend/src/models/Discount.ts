@@ -1,14 +1,6 @@
+import { DiscountStatus } from '@src/constants/AssignmentEnums';
 import { TAll } from 'jet-validator';
 import { Account } from './Account';
-
-
-// **** Variables **** //
-
-export enum DiscountStatus {
-  ACTIVE,
-	APPLIED,
-	EXPIRED
-}
 
 // **** Types **** //
 

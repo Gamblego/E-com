@@ -1,15 +1,7 @@
+import { TransactionStatus } from '@src/constants/AssignmentEnums';
 import { TAll } from 'jet-validator';
 import { Account } from './Account';
 import { Order } from './Order';
-
-// **** Variables **** //
-
-export enum TransactionStatus {
-  INITIATED,
-	DONE,
-	FAILED,
-	CANCELLED
-}
 
 // **** Types **** //
 

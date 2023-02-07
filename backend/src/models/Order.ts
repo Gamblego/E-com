@@ -3,14 +3,7 @@ import { Account } from './Account';
 import { Product } from './Product';
 import { Discount } from './Discount';
 import { User } from './User';
-// **** Variables **** //
-
-export enum OrderStatus {
-	PENDING,
-	CHECKED_OUT,
-	CONFIRMED,
-	COMPLETED
-}
+import { OrderStatus } from '@src/constants/AssignmentEnums';
 
 // **** Types **** //
 

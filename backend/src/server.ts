@@ -17,7 +17,7 @@ import Paths from '@src/routes/constants/Paths';
 import EnvVars from '@src/constants/EnvVars';
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 
-import { NodeEnvs } from '@src/constants/misc';
+import { NodeEnvs } from '@src/constants/AssignmentConstants';
 import { RouteError } from '@src/other/classes';
 
 

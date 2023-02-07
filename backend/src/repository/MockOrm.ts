@@ -9,11 +9,6 @@ import { Product } from '@src/models/Product';
 import { Transaction } from '@src/models/Transaction';
 import { Discount } from '@src/models/Discount';
 
-// **** Variables **** //
-
-const DB_FILE_NAME = 'database.json';
-
-
 // **** Types **** //
 
 export interface Db { 

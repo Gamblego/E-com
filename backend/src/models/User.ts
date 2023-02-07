@@ -1,9 +1,5 @@
 import { TAll } from 'jet-validator';
 
-
-// **** Variables **** //
-
-
 // **** Types **** //
 
 export interface User {

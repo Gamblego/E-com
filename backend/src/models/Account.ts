@@ -2,20 +2,7 @@ import { TAll } from 'jet-validator';
 import { Order } from './Order';
 import { Discount } from './Discount';
 import { User } from './User';
-
-// **** Variables **** //
-
-export enum Privilege {
-  Client,
-  Admin,
-	Seller
-}
-
-export enum AccountStatus {
-	ACTIVE,
-	CLOSED,
-	BANNED
-}
+import { AccountStatus, Privilege } from '@src/constants/AssignmentEnums';
 
 // **** Types **** //
 
