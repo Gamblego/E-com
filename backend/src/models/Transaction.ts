@@ -1,16 +1,16 @@
 import { TransactionStatus } from '@src/constants/AssignmentEnums';
 import { TAll } from 'jet-validator';
-import { Account } from './Account';
-import { Order } from './Order';
+import { IAccount } from './Account';
+import { IOrder } from './Order';
 
 // **** Types **** //
 
-export interface Transaction {
+export interface ITransaction {
   transactionId: string;
-  order: Order;
+  order: IOrder;
   dateCreated: Date;
 	amountPayable: number;
-	initiatedBy: Account;
+	initiatedBy: IAccount;
 	status: TransactionStatus
 }
 
@@ -21,8 +21,8 @@ export interface Transaction {
  */
 function new_
 (
-	order: Order, initiatedBy: Account, amountPayable?: number
-): Transaction {
+	order: IOrder, initiatedBy: IAccount, amountPayable?: number
+): ITransaction {
   return {
     transactionId: '',
     order: order,
@@ -38,8 +38,8 @@ function new_
  */
 function copy
 (
-  transaction: Transaction
-): Transaction {
+  transaction: ITransaction
+): ITransaction {
   return {
     transactionId: transaction.transactionId,
     order: transaction.order,

@@ -12,13 +12,13 @@ import logger from 'jet-logger';
 import 'express-async-errors';
 
 import BaseRouter from '@src/routes/api';
-import Paths from '@src/routes/constants/Paths';
+import Paths from '@src/constants/Paths';
 
 import EnvVars from '@src/constants/EnvVars';
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 
-import { NodeEnvs } from '@src/constants/AssignmentConstants';
-import { RouteError } from '@src/other/classes';
+import { NodeEnvs } from '@src/constants/AssignmentEnums';
+import { RouteError } from '@src/helper/Error';
 
 
 // **** Variables **** //

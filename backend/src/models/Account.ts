@@ -1,28 +1,28 @@
 import { TAll } from 'jet-validator';
-import { Order } from './Order';
-import { Discount } from './Discount';
-import { User } from './User';
+import { IOrder } from './Order';
+import { IDiscount } from './Discount';
+import { IUser } from './User';
 import { AccountStatus, Privilege } from '@src/constants/AssignmentEnums';
 
 // **** Types **** //
 
-export interface Account {
+export interface IAccount {
   accountId: string;
   username: string;
   password: string;
 	accountStatus: AccountStatus;
 	dateCreated: Date;
 	privilege: Privilege;
-	savedUsers?: Array<User>;
+	savedUsers?: Array<IUser>;
 	orderCount?: number;
-	cart?: Order;
-	discounts?: Array<Discount>;
+	cart?: IOrder;
+	discounts?: Array<IDiscount>;
 }
 
-export interface SessionAccount {
+export interface ISessionAccount {
   accountId: string;
   username: string;
-  privilege: Account['privilege'];
+  privilege: IAccount['privilege'];
 }
 
 
@@ -35,7 +35,7 @@ function new_
 (
 	username?: string, privilege?: Privilege, 
   password?: string, accountStatus?: AccountStatus
-): Account {
+): IAccount {
   return {
     accountId: '',
     username: (username ?? ''),
@@ -51,8 +51,8 @@ function new_
  */
 function copy
 (
-  account: Account
-): Account {
+  account: IAccount
+): IAccount {
   return {
     accountId: account.accountId,
     username: account.username,

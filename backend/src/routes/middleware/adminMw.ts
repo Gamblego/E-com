@@ -9,7 +9,8 @@ import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 import EnvVars from '@src/constants/EnvVars';
 
 import SessionUtil from '@src/util/SessionUtil';
-import { SessionAccount, Privilege } from '@src/models/Account';
+import { ISessionAccount } from '@src/models/Account';
+import { Privilege } from '@src/constants/AssignmentEnums';
 
 
 // **** Variables **** //
@@ -19,7 +20,7 @@ const USER_UNAUTHORIZED_ERR = 'User not authorized to perform this action';
 
 // **** Types **** //
 
-type TSessionData = SessionAccount & JwtPayload;
+type TSessionData = ISessionAccount & JwtPayload;
 
 
 // **** Functions **** //

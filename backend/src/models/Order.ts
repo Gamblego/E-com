@@ -1,22 +1,22 @@
 import { TAll } from 'jet-validator';
-import { Account } from './Account';
-import { Product } from './Product';
-import { Discount } from './Discount';
-import { User } from './User';
+import { IAccount } from './Account';
+import { IProduct } from './Product';
+import { IDiscount } from './Discount';
+import { IUser } from './User';
 import { OrderStatus } from '@src/constants/AssignmentEnums';
 
 // **** Types **** //
 
-export interface Order {
+export interface IOrder {
   orderId: string;
-  createdBy: Account;
+  createdBy: IAccount;
 	dateCreated: Date;
 	orderStatus: OrderStatus;
-	orderItems: Array<Product>;
+	orderItems: Array<IProduct>;
 	totalAmount: number;
 	netAmount: number;
-	deliverTo?: User;
-	appliedDiscount?: Discount
+	deliverTo?: IUser;
+	appliedDiscount?: IDiscount
 }
 
 
@@ -27,9 +27,9 @@ export interface Order {
  */
 function new_
 (
-	createdBy: Account, orderStatus?: OrderStatus, orderItems?: Array<Product>, 
+	createdBy: IAccount, orderStatus?: OrderStatus, orderItems?: Array<IProduct>, 
 	totalAmount?: number, netAmount?: number
-): Order {
+): IOrder {
   return {
     orderId: '',
     createdBy: createdBy,
@@ -46,8 +46,8 @@ function new_
  */
 function copy
 (
-  order: Order
-): Order {
+  order: IOrder
+): IOrder {
   return {
     orderId: order.orderId,
 		createdBy: order.createdBy,
@@ -62,7 +62,7 @@ function copy
 }
 
 /**
- * See if an object is an instance of Order.
+ * See if an object is an instance of IOrder.
  */
 function instanceOf
 (arg: TAll): boolean {

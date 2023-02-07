@@ -7,7 +7,7 @@ import PwdUtil from '@src/util/PwdUtil';
 import User, { UserRoles } from '@src/models/User';
 import { Errors } from '@src/services/AuthService';
 
-import FullPaths from '@src/routes/constants/FullPaths';
+import FullPaths from '@src/helper/FullPaths';
 import EnvVars from '@src/constants/EnvVars';
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 

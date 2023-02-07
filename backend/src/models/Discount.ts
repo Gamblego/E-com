@@ -1,15 +1,15 @@
 import { DiscountStatus } from '@src/constants/AssignmentEnums';
 import { TAll } from 'jet-validator';
-import { Account } from './Account';
+import { IAccount } from './Account';
 
 // **** Types **** //
 
-export interface Discount {
+export interface IDiscount {
   discountId: string,
 	dateCreated: Date,
 	discountPercentage: number,
 	discountStatus: DiscountStatus,
-	createdTo: Account
+	createdTo: IAccount
 }
 
 // **** Functions **** //
@@ -19,8 +19,8 @@ export interface Discount {
  */
 function new_
 (
-	createdTo: Account, discountPercentage?: number
-): Discount {
+	createdTo: IAccount, discountPercentage?: number
+): IDiscount {
   return {
 		discountId: '',
 		dateCreated: new Date(),
@@ -35,8 +35,8 @@ function new_
  */
 function copy
 (
-  discount: Discount
-): Discount {
+  discount: IDiscount
+): IDiscount {
   return {
     discountId: discount.discountId,
 		dateCreated: discount.dateCreated,

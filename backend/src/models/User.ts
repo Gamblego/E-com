@@ -2,7 +2,7 @@ import { TAll } from 'jet-validator';
 
 // **** Types **** //
 
-export interface User {
+export interface IUser {
   userId: string
   isOwner?: boolean
   firstName?: string,
@@ -27,7 +27,7 @@ function new_(
   firstName?: string,
   lastName?: string,
   email?: string,
-): User {
+): IUser {
   return {
     userId: '',
     isOwner: isOwner,
@@ -38,9 +38,9 @@ function new_(
 }
 
 /**
- * Copy a user object.
+ * Copy a User object.
  */
-function copy(user: User): User {
+function copy(user: IUser): IUser {
   return {
     userId: user.userId,
     isOwner: user.isOwner,

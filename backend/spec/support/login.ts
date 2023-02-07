@@ -3,7 +3,7 @@ import { SuperTest, Test, Response } from 'supertest';
 import User, { UserRoles } from '@src/models/User';
 import UserRepo from '@src/repository/UserRepository';
 import PwdUtil from '@src/util/PwdUtil';
-import FullPaths from '@src/routes/constants/FullPaths';
+import FullPaths from '@src/helper/FullPaths';
 
 
 // **** Variables **** //

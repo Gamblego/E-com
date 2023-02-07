@@ -3,7 +3,7 @@
  * Convert paths to full paths.
  */
 
-import Paths, { TPaths } from './Paths';
+import Paths, { TPaths } from '../constants/Paths';
 
 
 interface IPathObj {

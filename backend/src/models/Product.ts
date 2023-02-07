@@ -1,15 +1,15 @@
 import { TAll } from 'jet-validator';
-import { Account } from './Account';
+import { IAccount } from './Account';
 
 // **** Types **** //
 
-export interface Product {
+export interface IProduct {
   productId: string;
   productName: string,
   description: string,
   price: number,
   stockCount: number,
-  seller?: Account
+  seller?: IAccount
 }
 
 // **** Functions **** //
@@ -21,7 +21,7 @@ function new_
 (
 	productName?: string, description?: string, 
     price?: number, stockCount?: number
-): Product {
+): IProduct {
   return {
     productId: '',
     productName: (productName ?? ''),
@@ -36,8 +36,8 @@ function new_
  */
 function copy
 (
-  product: Product
-): Product {
+  product: IProduct
+): IProduct {
   return {
     productId: product.productId,
     productName: product.productName,
