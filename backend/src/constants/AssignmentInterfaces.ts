@@ -28,3 +28,7 @@ export interface IReqQuery<T extends Query, U = void> extends e.Request {
 	query: T;
 	body: U;
 }
+
+export interface Dictionary {
+    [key: string]: object | string;
+}

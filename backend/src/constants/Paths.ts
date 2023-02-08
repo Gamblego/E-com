@@ -7,6 +7,9 @@ import { Immutable } from '@src/helper/types';
 
 const Paths = {
   Base: '/api',
+  Docs: {
+    Base: '/docs'
+  },
   Auth: {
     Base: '/auth',
     Login: '/login',

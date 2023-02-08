@@ -8,6 +8,7 @@ import path from 'path';
 import helmet from 'helmet';
 import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
+import SwaggerUI from "swagger-ui-express";
 
 import 'express-async-errors';
 
@@ -19,6 +20,9 @@ import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 
 import { NodeEnvs } from '@src/constants/AssignmentEnums';
 import { RouteError } from '@src/helper/Error';
+
+import {DocumentationPath, SwaggerSpecifications} from "@src/swagger";
+import SwaggerJsDoc from "swagger-jsdoc";
 
 
 // **** Variables **** //
@@ -42,6 +46,9 @@ if (EnvVars.NodeEnv === NodeEnvs.Dev) {
 if (EnvVars.NodeEnv === NodeEnvs.Production) {
   app.use(helmet());
 }
+
+// Add API swagger documentation
+app.use(DocumentationPath, SwaggerUI.serve, SwaggerUI.setup(SwaggerSpecifications));
 
 // Add APIs, must be after middleware
 app.use(Paths.Base, BaseRouter);
