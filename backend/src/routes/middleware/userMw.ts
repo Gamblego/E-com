@@ -1,5 +1,5 @@
 /**
- * Middleware to verify user logged in and is an admin.
+ * Middleware to verify user logged in
  */
 
 import { Request, Response, NextFunction } from 'express';
@@ -21,27 +21,31 @@ type TSessionData = ISessionAccount & JwtPayload;
 /**
  * See note at beginning of file.
  */
-async function adminMw(
+async function userMw(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
-  // Get session data
-  const sessionData = await SessionUtil.getSessionData<TSessionData>(req);
-  // Set session data to locals
-  if (
-    typeof sessionData === 'object' &&
-    'privilege' in sessionData
-  ) {
-    res.locals.sessionUser = sessionData;
-    return next();
-  // Return an unauth error if user is not an admin
-  } else {
-    return next(new RouteError(HttpStatusCodes.UNAUTHORIZED, USER_UNAUTHORIZED_ERROR));
+  try {
+    // Get session data
+    const sessionData = await SessionUtil.getSessionData<TSessionData>(req);
+    // Set session data to locals
+    if (
+        typeof sessionData === 'object' &&
+        'privilege' in sessionData
+    ) {
+      res.locals.sessionUser = sessionData;
+      return next();
+      // Return an unAuth error if user is not an admin
+    } else {
+      throw new RouteError(HttpStatusCodes.UNAUTHORIZED, USER_UNAUTHORIZED_ERROR);
+    }
+  } catch (err: any) {
+    next(err);
   }
 }
 
 
 // **** Export Default **** //
 
-export default adminMw;
+export default userMw;

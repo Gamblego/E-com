@@ -22,10 +22,17 @@ const Paths = {
     Update: '/update',
     Delete: '/delete/:id',
   },
+  Account: {
+    Base: '/account',
+    All: '/search',
+    Get: '/:accountId',
+    Delete: '/:accountId'
+  }
 };
 
 
 // **** Export **** //
 
 export type TPaths = Immutable<typeof Paths>;
+export const DEFAULT_PATH: string = '';
 export default Paths as TPaths;

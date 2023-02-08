@@ -1,7 +1,7 @@
 import AccountRepository from '@src/repository/AccountRepository';
 
 import PwdUtil from '@src/util/PwdUtil';
-import { tick } from '@src/util/misc';
+import { tick } from '@src/util/AssignmentUtil';
 
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 import {ACCOUNT_NOT_FOUND_ERROR, LOGIN_FAILED_ERROR, RouteError} from '@src/helper/Error';
