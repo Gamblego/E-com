@@ -5,7 +5,7 @@ import app from '@src/server';
 import UserRepo from '@src/repository/UserRepository';
 import PwdUtil from '@src/util/PwdUtil';
 import User, { UserRoles } from '@src/models/User';
-import { Errors } from '@src/services/AuthService';
+import { Errors } from '@src/services/AuthenticationService';
 
 import FullPaths from '@src/helper/FullPaths';
 import EnvVars from '@src/constants/EnvVars';

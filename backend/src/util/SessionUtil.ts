@@ -11,7 +11,7 @@ import EnvVars from '../constants/EnvVars';
 
 // Errors
 const Errors = {
-  ParamFalsey: 'Param is falsey',
+  invalidRequest: 'Invalid request/params',
   Validation: 'JSON-web-token validation failed.',
 } as const;
 
@@ -40,7 +40,7 @@ async function addSessionData(
   data: string | object,
 ): Promise<Response> {
   if (!res || !data) {
-    throw new RouteError(HttpStatusCodes.BAD_REQUEST, Errors.ParamFalsey);
+    throw new RouteError(HttpStatusCodes.BAD_REQUEST, Errors.invalidRequest);
   }
   // Setup JWT
   const jwt = await _sign(data),
