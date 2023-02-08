@@ -1,4 +1,4 @@
-import { Account } from '@src/models/Account';
+import { IAccount } from '@src/models/Account';
 import orm from './MockOrm';
 
 // **** Functions **** //
@@ -6,7 +6,7 @@ import orm from './MockOrm';
 /**
  * Get one user.
  */
-async function getOne(accountId: string): Promise<Account | null> {
+async function getOne(accountId: string): Promise<IAccount | null> {
   const db = await orm.openDb();
   for (const user of db.accounts) {
     if (user.accountId === accountId) {
@@ -32,7 +32,7 @@ async function persists(id: string): Promise<boolean> {
 /**
  * Get all users.
  */
-async function getAll(): Promise<Account[]> {
+async function getAll(): Promise<IAccount[]> {
   const db = await orm.openDb();
   return db.accounts;
 }
@@ -40,7 +40,7 @@ async function getAll(): Promise<Account[]> {
 /**
  * Add one user.
  */
-async function add(account: Account): Promise<void> {
+async function add(account: IAccount): Promise<void> {
   const db = await orm.openDb();
   db.accounts.push(account);
   return orm.saveDb(db);
@@ -49,7 +49,7 @@ async function add(account: Account): Promise<void> {
 /**
  * Update a user.
  */
-async function update(account: Account): Promise<void> {
+async function update(account: IAccount): Promise<void> {
   const db = await orm.openDb();
   for (let i = 0; i < db.accounts.length; i++) {
     if (db.accounts[i].accountId === account.accountId) {

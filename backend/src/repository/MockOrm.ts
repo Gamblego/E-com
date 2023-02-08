@@ -2,22 +2,22 @@
 
 import jsonfile from 'jsonfile';
 
-import { User } from '@src/models/User';
-import { Account } from '@src/models/Account';
-import { Order } from '@src/models/Order';
-import { Product } from '@src/models/Product';
-import { Transaction } from '@src/models/Transaction';
-import { Discount } from '@src/models/Discount';
+import { IUser } from '@src/models/User';
+import { IAccount } from '@src/models/Account';
+import { IOrder } from '@src/models/Order';
+import { IProduct } from '@src/models/Product';
+import { ITransaction } from '@src/models/Transaction';
+import { IDiscount } from '@src/models/Discount';
 
 // **** Types **** //
 
 export interface Db { 
-  users: User[];
-  accounts: Account[];
-  orders: Order[];
-  products: Product[];
-  transactions: Transaction[];
-  discounts: Discount[];
+  users: IUser[];
+  accounts: IAccount[];
+  orders: IOrder[];
+  products: IProduct[];
+  transactions: ITransaction[];
+  discounts: IDiscount[];
 }
 
 

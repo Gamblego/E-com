@@ -26,7 +26,7 @@ export const Errors = {
  */
 async function login(username: string, password: string): Promise<IAccount> {
   // Fetch user
-  const account: IAccount = await AccountRepository.getOne(username);
+  const account: IAccount | null = await AccountRepository.getOne(username);
   if (!account) {
     throw new RouteError(
       HttpStatusCodes.UNAUTHORIZED,

@@ -2,7 +2,7 @@ import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 
 import UserService from '@src/services/UserService';
 import { IUser } from '@src/models/User';
-import { IReq, IRes } from './types/express/misc';
+import { IReq, IRes } from '@src/constants/AssignmentInterfaces';
 
 
 // **** Functions **** //
@@ -36,8 +36,8 @@ async function update(req: IReq<{user: IUser}>, res: IRes) {
 /**
  * Delete one user.
  */
-async function delete_(req: IReq, res: IRes) {
-  const id = +req.params.id;
+async function delete_(req: IReq<IUser>, res: IRes) {
+  const id = req.params.id;
   await UserService.delete(id);
   return res.status(HttpStatusCodes.OK).end();
 }
