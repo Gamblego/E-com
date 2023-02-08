@@ -18,7 +18,7 @@ const options: Dictionary = {
             }
         ]
     },
-    apis: ["./src/routes/**/*.ts"]
+    apis: ["./src/routes/**/*.ts", "./src/schemaobjects/*.ts", "./src/constants/*.ts"]
 }
 
 export const DocumentationPath: string = FullPaths.Docs.Base;

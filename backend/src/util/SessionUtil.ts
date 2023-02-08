@@ -1,12 +1,11 @@
-import { Request, Response } from 'express';
+import {Request, Response} from 'express';
 
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 import {INVALID_REQUEST_ERROR, JWT_VALIDATION_ERROR, RouteError} from '@src/helper/Error';
 import jsonwebtoken from 'jsonwebtoken';
 
 import EnvVars from '../constants/EnvVars';
-import {IError} from "@src/constants/AssignmentInterfaces";
-
+import {IError} from "@src/schemaobjects/IError";
 
 
 // Options
@@ -23,6 +22,9 @@ const Options = {
 function getSessionData<T>(req: Request): Promise<IError | T | undefined> {
   const { Key } = EnvVars.CookieProps,
     jwt = req.signedCookies[Key];
+  if(!jwt) {
+    throw new RouteError(HttpStatusCodes.UNPROCESSABLE_ENTITY, JWT_VALIDATION_ERROR);
+  }
   return _decode(jwt);
 }
 

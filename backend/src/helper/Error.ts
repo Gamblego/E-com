@@ -3,7 +3,7 @@
  */
 
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
-import {IError} from "@src/constants/AssignmentInterfaces";
+import {IError} from "@src/schemaobjects/IError";
 
 // ** RouteError Class **** //
 /**
