@@ -9,13 +9,7 @@ import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 
 import SessionUtil from '@src/util/SessionUtil';
 import { ISessionAccount } from '@src/models/Account';
-import { Privilege } from '@src/constants/AssignmentEnums';
-
-
-// **** Variables **** //
-
-const USER_UNAUTHORIZED_ERR = 'User not authorized to perform this action';
-
+import {RouteError, USER_UNAUTHORIZED_ERROR} from "@src/helper/Error";
 
 // **** Types **** //
 
@@ -37,15 +31,13 @@ async function adminMw(
   // Set session data to locals
   if (
     typeof sessionData === 'object' &&
-    sessionData?.role === Privilege.Admin
+    'privilege' in sessionData
   ) {
     res.locals.sessionUser = sessionData;
     return next();
   // Return an unauth error if user is not an admin
   } else {
-    return res
-      .status(HttpStatusCodes.UNAUTHORIZED)
-      .json({ error: USER_UNAUTHORIZED_ERR });
+    return next(new RouteError(HttpStatusCodes.UNAUTHORIZED, USER_UNAUTHORIZED_ERROR));
   }
 }
 

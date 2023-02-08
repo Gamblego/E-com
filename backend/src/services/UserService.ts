@@ -1,13 +1,7 @@
 import UserRepo from '@src/repository/UserRepository';
 import { IUser } from '@src/models/User';
-import { RouteError } from '@src/helper/Error';
+import {RouteError, USER_NOT_FOUND_ERROR} from '@src/helper/Error';
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
-
-
-// **** Variables **** //
-
-export const USER_NOT_FOUND_ERR = 'User not found';
-
 
 // **** Functions **** //
 
@@ -33,7 +27,7 @@ async function updateOne(user: IUser): Promise<void> {
   if (!persists) {
     throw new RouteError(
       HttpStatusCodes.NOT_FOUND,
-      USER_NOT_FOUND_ERR,
+      USER_NOT_FOUND_ERROR
     );
   }
   // Return user
@@ -48,7 +42,7 @@ async function _delete(id: string): Promise<void> {
   if (!persists) {
     throw new RouteError(
       HttpStatusCodes.NOT_FOUND,
-      USER_NOT_FOUND_ERR,
+      USER_NOT_FOUND_ERROR
     );
   }
   // Delete user

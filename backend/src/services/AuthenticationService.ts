@@ -4,20 +4,8 @@ import PwdUtil from '@src/util/PwdUtil';
 import { tick } from '@src/util/misc';
 
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
-import { RouteError } from '@src/helper/Error';
+import {ACCOUNT_NOT_FOUND_ERROR, LOGIN_FAILED_ERROR, RouteError} from '@src/helper/Error';
 import {IAccount} from "@src/models/Account";
-
-
-// **** Variables **** //
-
-// Errors
-export const Errors = {
-  unAuth: 'Unauthorized',
-  AccountNotFound(username: string) {
-    return `Account with username "${username}" not found`;
-  },
-} as const;
-
 
 // **** Functions **** //
 
@@ -30,7 +18,7 @@ async function login(username: string, password: string): Promise<IAccount> {
   if (!account) {
     throw new RouteError(
       HttpStatusCodes.UNAUTHORIZED,
-      Errors.AccountNotFound(username),
+      ACCOUNT_NOT_FOUND_ERROR
     );
   }
   // Check password
@@ -41,7 +29,7 @@ async function login(username: string, password: string): Promise<IAccount> {
     await tick(500);
     throw new RouteError(
       HttpStatusCodes.UNAUTHORIZED, 
-      Errors.unAuth,
+      LOGIN_FAILED_ERROR
     );
   }
   // Return

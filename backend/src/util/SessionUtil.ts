@@ -1,19 +1,13 @@
 import { Request, Response } from 'express';
 
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
-import { RouteError } from '@src/helper/Error';
+import {INVALID_REQUEST_ERROR, JWT_VALIDATION_ERROR, RouteError} from '@src/helper/Error';
 import jsonwebtoken from 'jsonwebtoken';
 
 import EnvVars from '../constants/EnvVars';
+import {IError} from "@src/constants/AssignmentInterfaces";
 
 
-// **** Variables **** //
-
-// Errors
-const Errors = {
-  invalidRequest: 'Invalid request/params',
-  Validation: 'JSON-web-token validation failed.',
-} as const;
 
 // Options
 const Options = {
@@ -26,7 +20,7 @@ const Options = {
 /**
  * Get session data from request object (i.e. ISessionUser)
  */
-function getSessionData<T>(req: Request): Promise<string | T | undefined> {
+function getSessionData<T>(req: Request): Promise<IError | T | undefined> {
   const { Key } = EnvVars.CookieProps,
     jwt = req.signedCookies[Key];
   return _decode(jwt);
@@ -40,7 +34,7 @@ async function addSessionData(
   data: string | object,
 ): Promise<Response> {
   if (!res || !data) {
-    throw new RouteError(HttpStatusCodes.BAD_REQUEST, Errors.invalidRequest);
+    throw new RouteError(HttpStatusCodes.BAD_REQUEST, INVALID_REQUEST_ERROR);
   }
   // Setup JWT
   const jwt = await _sign(data),
@@ -74,10 +68,10 @@ function _sign(data: string | object | Buffer): Promise<string> {
 /**
  * Decrypt JWT and extract client data.
  */
-function _decode<T>(jwt: string): Promise<string | undefined | T> {
+function _decode<T>(jwt: string): Promise<IError | undefined | T> {
   return new Promise((res, rej) => {
     jsonwebtoken.verify(jwt, EnvVars.Jwt.Secret, (err, decoded) => {
-      return err ? rej(Errors.Validation) : res(decoded as T);
+      return err ? rej(JWT_VALIDATION_ERROR) : res(decoded as T);
     });
   });
 }
