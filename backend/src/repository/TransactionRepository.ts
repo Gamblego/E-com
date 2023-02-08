@@ -1,4 +1,4 @@
-import { Transaction } from '@src/models/Transaction';
+import { ITransaction } from '@src/models/Transaction';
 import orm from './MockOrm';
 
 // **** Functions **** //
@@ -6,7 +6,7 @@ import orm from './MockOrm';
 /**
  * Get one transaction.
  */
-async function getOne(transactionId: string): Promise<Transaction | null> {
+async function getOne(transactionId: string): Promise<ITransaction | null> {
   const db = await orm.openDb();
   for (const transaction of db.transactions) {
     if (transaction.transactionId === transactionId) {
@@ -32,7 +32,7 @@ async function persists(id: string): Promise<boolean> {
 /**
  * Get all transactions.
  */
-async function getAll(): Promise<Array<Transaction>> {
+async function getAll(): Promise<Array<ITransaction>> {
   const db = await orm.openDb();
   return db.transactions;
 }
@@ -40,7 +40,7 @@ async function getAll(): Promise<Array<Transaction>> {
 /**
  * Add one transaction.
  */
-async function add(transaction: Transaction): Promise<void> {
+async function add(transaction: ITransaction): Promise<void> {
   const db = await orm.openDb();
   db.transactions.push(transaction);
   return orm.saveDb(db);
@@ -49,7 +49,7 @@ async function add(transaction: Transaction): Promise<void> {
 /**
  * Update a transaction.
  */
-async function update(transaction: Transaction): Promise<void> {
+async function update(transaction: ITransaction): Promise<void> {
   const db = await orm.openDb();
   for (let i = 0; i < db.transactions.length; i++) {
     if (db.transactions[i].transactionId === transaction.transactionId) {

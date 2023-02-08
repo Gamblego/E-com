@@ -1,5 +1,4 @@
-import { Product } from '@src/models/Product';
-import { getRandomInt } from '@src/util/misc';
+import { IProduct } from '@src/models/Product';
 import orm from './MockOrm';
 
 // **** Functions **** //
@@ -7,7 +6,7 @@ import orm from './MockOrm';
 /**
  * Get one Product.
  */
-async function getOne(productId: string): Promise<Product | null> {
+async function getOne(productId: string): Promise<IProduct | null> {
   const db = await orm.openDb();
   for (const product of db.products) {
     if (product.productId === productId) {
@@ -33,7 +32,7 @@ async function persists(id: string): Promise<boolean> {
 /**
  * Get all products.
  */
-async function getAll(): Promise<Array<Product>> {
+async function getAll(): Promise<Array<IProduct>> {
   const db = await orm.openDb();
   return db.products;
 }
@@ -41,7 +40,7 @@ async function getAll(): Promise<Array<Product>> {
 /**
  * Add one Product.
  */
-async function add(Product: Product): Promise<void> {
+async function add(Product: IProduct): Promise<void> {
   const db = await orm.openDb();
   db.products.push(Product);
   return orm.saveDb(db);
@@ -50,7 +49,7 @@ async function add(Product: Product): Promise<void> {
 /**
  * Update a Product.
  */
-async function update(Product: Product): Promise<void> {
+async function update(Product: IProduct): Promise<void> {
   const db = await orm.openDb();
   for (let i = 0; i < db.products.length; i++) {
     if (db.products[i].productId === Product.productId) {

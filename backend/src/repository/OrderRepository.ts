@@ -1,4 +1,4 @@
-import { Order } from '@src/models/Order';
+import { IOrder } from '@src/models/Order';
 import orm from './MockOrm';
 
 // **** Functions **** //
@@ -6,7 +6,7 @@ import orm from './MockOrm';
 /**
  * Get one Order.
  */
-async function getOne(orderId: string): Promise<Order | null> {
+async function getOne(orderId: string): Promise<IOrder | null> {
   const db = await orm.openDb();
   for (const order of db.orders) {
     if (order.orderId === orderId) {
@@ -32,7 +32,7 @@ async function persists(id: string): Promise<boolean> {
 /**
  * Get all orders.
  */
-async function getAll(): Promise<Array<Order>> {
+async function getAll(): Promise<Array<IOrder>> {
   const db = await orm.openDb();
   return db.orders;
 }
@@ -40,7 +40,7 @@ async function getAll(): Promise<Array<Order>> {
 /**
  * Add one Order.
  */
-async function add(Order: Order): Promise<void> {
+async function add(Order: IOrder): Promise<void> {
   const db = await orm.openDb();
   db.orders.push(Order);
   return orm.saveDb(db);
@@ -49,7 +49,7 @@ async function add(Order: Order): Promise<void> {
 /**
  * Update a Order.
  */
-async function update(Order: Order): Promise<void> {
+async function update(Order: IOrder): Promise<void> {
   const db = await orm.openDb();
   for (let i = 0; i < db.orders.length; i++) {
     if (db.orders[i].orderId === Order.orderId) {

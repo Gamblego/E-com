@@ -1,4 +1,4 @@
-import { Discount } from '@src/models/Discount';
+import { IDiscount } from '@src/models/Discount';
 import orm from './MockOrm';
 
 // **** Functions **** //
@@ -6,7 +6,7 @@ import orm from './MockOrm';
 /**
  * Get one Discount.
  */
-async function getOne(discountId: string): Promise<Discount | null> {
+async function getOne(discountId: string): Promise<IDiscount | null> {
   const db = await orm.openDb();
   for (const Discount of db.discounts) {
     if (Discount.discountId === discountId) {
@@ -32,7 +32,7 @@ async function persists(id: string): Promise<boolean> {
 /**
  * Get all discounts.
  */
-async function getAll(): Promise<Array<Discount>> {
+async function getAll(): Promise<Array<IDiscount>> {
   const db = await orm.openDb();
   return db.discounts;
 }
@@ -40,7 +40,7 @@ async function getAll(): Promise<Array<Discount>> {
 /**
  * Add one Discount.
  */
-async function add(discount: Discount): Promise<void> {
+async function add(discount: IDiscount): Promise<void> {
   const db = await orm.openDb();
   db.discounts.push(discount);
   return orm.saveDb(db);
@@ -49,7 +49,7 @@ async function add(discount: Discount): Promise<void> {
 /**
  * Update a Discount.
  */
-async function update(discount: Discount): Promise<void> {
+async function update(discount: IDiscount): Promise<void> {
   const db = await orm.openDb();
   for (let i = 0; i < db.discounts.length; i++) {
     if (db.discounts[i].discountId === discount.discountId) {
