@@ -73,3 +73,8 @@ export const ID_IS_MANDATORY_ERROR: IError = {
   code: "ID_IS_MANDATORY_ERROR",
   message: "Id is missing in request"
 }
+
+export const PRODUCT_NOT_FOUND_ERROR: IError = {
+  code: "PRODUCT_NOT_FOUND_ERROR",
+  message: "The requested product could not be fetched. Please try again later"
+}

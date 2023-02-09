@@ -62,14 +62,16 @@ async function update(Product: IProduct): Promise<void> {
 /**
  * Delete one Product.
  */
-async function delete_(id: string): Promise<void> {
+async function delete_(id: string): Promise<boolean> {
   const db = await orm.openDb();
   for (let i = 0; i < db.products.length; i++) {
     if (db.products[i].productId === id) {
       db.products.splice(i, 1);
-      return orm.saveDb(db);
+      await orm.saveDb(db);
+      return true;
     }
   }
+  return false;
 }
 
 

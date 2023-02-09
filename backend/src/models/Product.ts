@@ -9,7 +9,7 @@ export interface IProduct {
   description: string,
   price: number,
   stockCount: number,
-  seller?: IAccount
+  seller?: string // accountId of Account that put up the product
 }
 
 // **** Functions **** //

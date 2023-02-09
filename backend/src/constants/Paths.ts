@@ -27,6 +27,12 @@ const Paths = {
     All: '/search',
     Get: '/:accountId',
     Delete: '/:accountId'
+  },
+  Product: {
+    Base: '/product',
+    All: '/search',
+    Get: '/:productId',
+    Delete: '/:productId'
   }
 };
 
