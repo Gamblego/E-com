@@ -5,6 +5,8 @@
 
 import {IReq, IRes} from "@src/constants/AssignmentInterfaces";
 import {NextFunction} from "express";
+import {IError} from "@src/schemaobjects/IError";
+import logger from "jet-logger";
 
 /**
  * Get a random number between 1 and 1,000,000,000,000
@@ -34,4 +36,12 @@ export function ControllerWrapper (
       next(err);
     }
   }
+}
+
+export async function PromiseWrapper<T> (
+    promise: Promise<T>, error: IError
+):  Promise<T | void> {
+  return await promise.catch(err => {
+    logger.info(`Error occurred while resolving promise [${promise}]: ${error}`);
+  });
 }

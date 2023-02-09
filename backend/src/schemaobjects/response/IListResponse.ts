@@ -30,7 +30,7 @@
  * @field totalRecords - total number of records
  * @field data - the data being returned
  */
-export interface IListResponse {
+export interface IListResponse<T> {
     totalRecords: number;
-    data: Object[];
+    data: T[];
 }
