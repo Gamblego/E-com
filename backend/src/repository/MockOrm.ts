@@ -8,6 +8,7 @@ import { IOrder } from '@src/models/Order';
 import { IProduct } from '@src/models/Product';
 import { ITransaction } from '@src/models/Transaction';
 import { IDiscount } from '@src/models/Discount';
+import AssignmentConstants from "@src/constants/AssignmentConstants";
 
 // **** Types **** //
 
@@ -27,14 +28,14 @@ export interface Db {
  * Fetch the json from the file.
  */
 function openDb(): Promise<Db> {
-  return jsonfile.readFile(__dirname + '/' + DB_FILE_NAME) as Promise<Db>;
+  return jsonfile.readFile(__dirname + '/' + AssignmentConstants.DB_FILE_NAME) as Promise<Db>;
 }
 
 /**
  * Update the file.
  */
 function saveDb(db: Db): Promise<void> {
-  return jsonfile.writeFile((__dirname + '/' + DB_FILE_NAME), db);
+  return jsonfile.writeFile((__dirname + '/' + AssignmentConstants.DB_FILE_NAME), db);
 }
 
 

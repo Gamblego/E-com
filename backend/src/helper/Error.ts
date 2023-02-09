@@ -58,3 +58,18 @@ export const USER_NOT_FOUND_ERROR: IError = {
   code: "USER_NOT_FOUND_ERROR",
   message: "User with given credentials does not exist"
 }
+
+export const INTERNAL_PROCESSING_ERROR: IError = {
+  code: "INTERNAL_PROCESSING_ERROR",
+  message: "Some error occurred. Please try again later"
+};
+
+export const DB_ERROR: IError = {
+  code: "DB_ERROR",
+  message: "Some error occurred. Please try again later"
+};
+
+export const ID_IS_MANDATORY_ERROR: IError = {
+  code: "ID_IS_MANDATORY_ERROR",
+  message: "Id is missing in request"
+}

@@ -62,14 +62,16 @@ async function update(account: IAccount): Promise<void> {
 /**
  * Delete one user.
  */
-async function delete_(id: string): Promise<void> {
+async function delete_(id: string): Promise<boolean> {
   const db = await orm.openDb();
   for (let i = 0; i < db.accounts.length; i++) {
     if (db.accounts[i].accountId === id) {
       db.accounts.splice(i, 1);
-      return orm.saveDb(db);
+      await orm.saveDb(db);
+      return true;
     }
   }
+  return false;
 }
 
 

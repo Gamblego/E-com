@@ -3,32 +3,54 @@
  */
 import {IReq, IRes} from "@src/constants/AssignmentInterfaces";
 import {IAccount} from "@src/models/Account";
-import AccountRepository from "@src/repository/AccountRepository";
 import {IListResponse} from "@src/schemaobjects/response/IListResponse";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
-import {ACCOUNT_NOT_FOUND_ERROR, RouteError} from "@src/helper/Error";
 import {NextFunction} from "express";
-import {IAccountResponse} from "@src/schemaobjects/response/IAccountResponse";
+import logger from "jet-logger";
+import AccountService from "@src/services/AccountService";
+import {IAccountSearchRequest} from "@src/schemaobjects/request/IAccountSearchRequest";
+import {TAccountRequest, TAccountResponse} from "@src/schemaobjects/types";
+import {ISaveResponse} from "@src/schemaobjects/response/ISaveResponse";
 
-async function getAll(request: IReq, response: IRes, next: NextFunction) : Promise<IRes> {
-    const accounts: IAccount[] = await AccountRepository.getAll();
-    let responseBody: IListResponse = {
-        totalRecords: accounts.length,
-        data: accounts
-    };
+async function getAll
+(request: IReq<IAccountSearchRequest>, response: IRes, next: NextFunction) : Promise<IRes> {
+    const startTime: number = Date.now();
+    const accountSearchRequest: IAccountSearchRequest = request.body;
+    const responseBody: IListResponse<IAccount> =
+        await AccountService.getAllAccountsMatchingFilter(accountSearchRequest);
+    logger.info(`time taken to complete AccountRouter.GetAll - ${Date.now() - startTime} ms`)
     return response.status(HttpStatusCodes.OK).json(responseBody);
 }
 
-async function getOne(request: IReq, response: IRes, next: NextFunction) : Promise<IRes | void> {
-    const { productId } = request.params;
-    const account: IAccount | null = await AccountRepository.getOne(productId);
-    if(!account) {
-        throw new RouteError(HttpStatusCodes.NOT_FOUND, ACCOUNT_NOT_FOUND_ERROR);
-    }
-    return response.status(HttpStatusCodes.OK).json(account as IAccountResponse);
+async function getOne
+(request: IReq, response: IRes, next: NextFunction) : Promise<IRes | void> {
+    const startTime: number = Date.now();
+    const { accountId } = request.params;
+    const account: TAccountResponse = await AccountService.getAccount(accountId);
+    logger.info(`time taken to complete AccountRouter.GetOne - ${Date.now() - startTime} ms`);
+    return response.status(HttpStatusCodes.OK).json(account);
+}
+
+async function createOne(request: IReq<TAccountRequest>, response: IRes, next: NextFunction) : Promise<IRes | void> {
+    const startTime: number = Date.now();
+    const accountSaveRequest: TAccountRequest = request.body;
+    const responseBody: ISaveResponse = await AccountService.createAccount(accountSaveRequest);
+    logger.info(`time taken to complete AccountRouter.CreateOne - ${Date.now() - startTime} ms`);
+    return response.status(HttpStatusCodes.OK).json(responseBody);
+}
+
+async function deleteOne
+(request: IReq, response: IRes, next: NextFunction) : Promise<IRes> {
+    const startTime: number = Date.now();
+    const { accountId } = request.params;
+    const accountDeleteResponse: ISaveResponse = await AccountService.deleteAccount(accountId);
+    logger.info(`time taken to complete AccountRouter.CreateOne - ${Date.now() - startTime} ms`);
+    return response.status(HttpStatusCodes.OK).json(accountDeleteResponse);
 }
 
 export default {
     getAll: getAll,
-    getOne: getOne
+    getOne: getOne,
+    createOne: createOne,
+    deleteOne: deleteOne
 }
