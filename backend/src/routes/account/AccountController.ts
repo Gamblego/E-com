@@ -2,21 +2,23 @@
  *  Get all accounts
  */
 import {IReq, IRes} from "@src/constants/AssignmentInterfaces";
-import {IAccount} from "@src/models/Account";
+import {ISessionAccount} from "@src/models/Account";
 import {IListResponse} from "@src/schemaobjects/response/IListResponse";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
 import logger from "jet-logger";
 import AccountService from "@src/services/AccountService";
-import {IAccountSearchRequest} from "@src/schemaobjects/request/IAccountSearchRequest";
-import {TAccountRequest, TAccountResponse} from "@src/schemaobjects/types";
+import {TAccountRequest, TAccountResponse, TAccountSearchRequest} from "@src/schemaobjects/types";
 import {ISaveResponse} from "@src/schemaobjects/response/ISaveResponse";
+import {Privilege} from "@src/constants/AssignmentEnums";
+import SessionUtil from "@src/util/SessionUtil";
 
 async function getAll
-(request: IReq<IAccountSearchRequest>, response: IRes) : Promise<IRes> {
+(request: IReq<TAccountSearchRequest>, response: IRes) : Promise<IRes> {
     const startTime: number = Date.now();
-    const accountSearchRequest: IAccountSearchRequest = request.body;
-    const responseBody: IListResponse<IAccount> =
-        await AccountService.getAllAccountsMatchingFilter(accountSearchRequest);
+    const accountSearchRequest: TAccountSearchRequest = request.body;
+    const webToken: ISessionAccount | undefined = response.locals.sessionUser;
+    const responseBody: IListResponse<TAccountResponse> =
+        await AccountService.getAllAccountsMatchingFilter(accountSearchRequest, webToken);
     logger.info(`time taken to complete AccountRouter.GetAll - ${Date.now() - startTime} ms`)
     return response.status(HttpStatusCodes.OK).json(responseBody);
 }
@@ -34,6 +36,12 @@ async function createOne(request: IReq<TAccountRequest>, response: IRes) : Promi
     const startTime: number = Date.now();
     const accountSaveRequest: TAccountRequest = request.body;
     const responseBody: ISaveResponse = await AccountService.createAccount(accountSaveRequest);
+    const sessionDetails: ISessionAccount = {
+        accountId: responseBody.id,
+        username: accountSaveRequest.username,
+        privilege: Privilege.Client
+    }
+    await SessionUtil.addSessionData(response, sessionDetails);
     logger.info(`time taken to complete AccountRouter.CreateOne - ${Date.now() - startTime} ms`);
     return response.status(HttpStatusCodes.OK).json(responseBody);
 }
@@ -43,6 +51,7 @@ async function deleteOne
     const startTime: number = Date.now();
     const { accountId } = request.params;
     const accountDeleteResponse: ISaveResponse = await AccountService.deleteAccount(accountId);
+    SessionUtil.clearCookie(response);
     logger.info(`time taken to complete AccountRouter.CreateOne - ${Date.now() - startTime} ms`);
     return response.status(HttpStatusCodes.OK).json(accountDeleteResponse);
 }

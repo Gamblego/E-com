@@ -1,5 +1,6 @@
 import { IAccount } from '@src/models/Account';
 import orm from './MockOrm';
+import {TAccountSearchRequest} from "@src/schemaobjects/types";
 
 // **** Functions **** //
 
@@ -32,8 +33,15 @@ async function persists(id: string): Promise<boolean> {
 /**
  * Get all users.
  */
-async function getAll(): Promise<IAccount[]> {
+async function getAll(filter: TAccountSearchRequest): Promise<IAccount[]> {
   const db = await orm.openDb();
+  const accounts = db.accounts.filter(
+      account =>
+        (filter.accountStatus === undefined || filter.accountStatus === account.accountStatus) &&
+        (filter.dateCreated === undefined   || filter.dateCreated === account.dateCreated) &&
+        (filter.orderCount === undefined    || filter.orderCount === account.orderCount) &&
+        (filter.username === undefined      || filter.username === account.username)
+  );
   return db.accounts;
 }
 

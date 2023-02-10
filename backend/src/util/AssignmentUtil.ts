@@ -7,7 +7,6 @@ import {IReq, IRes} from "@src/constants/AssignmentInterfaces";
 import {NextFunction} from "express";
 import {IError} from "@src/schemaobjects/IError";
 import logger from "jet-logger";
-import {RouteError} from "@src/helper/Error";
 
 /**
  * Get a random number between 1 and 1,000,000,000,000
@@ -46,4 +45,8 @@ export async function PromiseWrapper<T> (
     logger.info(`Error occurred while resolving promise [${promise}]: ${error}`);
     throw err;
   });
+}
+
+export function CreateId(model: string) {
+  return model.toUpperCase() + Math.floor(Math.random() * 1e5).toString();
 }
