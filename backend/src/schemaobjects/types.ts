@@ -62,4 +62,6 @@ export type TAccountSearchRequest = Partial<Pick<IAccount, Exclude<TAccountReque
  *        price: 200
  *        seller: Amazon
  */
-export type TProductSearchRequest = IProduct;
+export type TProductSearchRequest = Partial<Omit<IProduct, "productId">>;
+
+export type TProductCreateRequest = Omit<IProduct, "productId">;

@@ -1,5 +1,6 @@
-import { IProduct } from '@src/models/Product';
+import product, { IProduct } from '@src/models/Product';
 import orm from './MockOrm';
+import {TProductSearchRequest} from "@src/schemaobjects/types";
 
 // **** Functions **** //
 
@@ -32,8 +33,15 @@ async function persists(id: string): Promise<boolean> {
 /**
  * Get all products.
  */
-async function getAll(): Promise<Array<IProduct>> {
+async function getAll(productSearchRequest: TProductSearchRequest): Promise<Array<IProduct>> {
   const db = await orm.openDb();
+  const products = db.products.filter( product =>
+      productSearchRequest.productName === undefined || productSearchRequest.productName === product.productName &&
+      productSearchRequest.description === undefined || productSearchRequest.description === product.description &&
+      productSearchRequest.price === undefined       || productSearchRequest.price === product.price &&
+      productSearchRequest.stockCount === undefined  || productSearchRequest.stockCount === product.stockCount &&
+      productSearchRequest.seller === undefined      || productSearchRequest.seller === product.seller
+  )
   return db.products;
 }
 
