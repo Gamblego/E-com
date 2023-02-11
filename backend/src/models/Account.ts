@@ -13,16 +13,16 @@ export interface IAccount {
 	accountStatus: AccountStatus;
 	dateCreated: Date;
 	privilege: Privilege;
-	savedUsers?: Array<IUser>;
+	savedUsers?: Array<string>; // userId of saved users
 	orderCount?: number;
 	cart?: IOrder;
-	discounts?: Array<IDiscount>;
+	discounts?: Array<string>; // discountId of discounts for this account
 }
 
 export interface ISessionAccount {
   accountId: string;
   username: string;
-  privilege: IAccount['privilege'];
+  privilege: Privilege;
 }
 
 

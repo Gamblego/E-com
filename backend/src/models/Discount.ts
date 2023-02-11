@@ -9,7 +9,7 @@ export interface IDiscount {
 	dateCreated: Date,
 	discountPercentage: number,
 	discountStatus: DiscountStatus,
-	createdTo: IAccount
+	createdTo: string // account id of the account for which discount was created
 }
 
 // **** Functions **** //
@@ -19,7 +19,7 @@ export interface IDiscount {
  */
 function new_
 (
-	createdTo: IAccount, discountPercentage?: number
+	createdTo: string, discountPercentage?: number
 ): IDiscount {
   return {
 		discountId: '',

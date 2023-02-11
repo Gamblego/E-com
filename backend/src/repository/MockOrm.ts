@@ -27,8 +27,16 @@ export interface Db {
 /**
  * Fetch the json from the file.
  */
-function openDb(): Promise<Db> {
-  return jsonfile.readFile(__dirname + '/' + AssignmentConstants.DB_FILE_NAME) as Promise<Db>;
+async function openDb(): Promise<Db> {
+  const db = await jsonfile.readFile(__dirname + '/' + AssignmentConstants.DB_FILE_NAME) as Db;
+  if(!db.accounts) db.accounts = [];
+  if(!db.users) db.users = [];
+  if(!db.orders) db.orders = [];
+  if(!db.products) db.products = [];
+  if(!db.transactions) db.transactions = [];
+  if(!db.discounts) db.discounts = [];
+
+  return db;
 }
 
 /**
