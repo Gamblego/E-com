@@ -32,3 +32,8 @@ export interface IReqQuery<T extends Query, U = void> extends e.Request {
 export interface Dictionary {
     [key: string]: object | string;
 }
+
+export interface IProductCount {
+  productId: string;
+  count: number;
+}

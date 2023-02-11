@@ -1,7 +1,7 @@
 import AccountRepository from '@src/repository/AccountRepository';
 
 import PwdUtil from '@src/util/PwdUtil';
-import { tick } from '@src/util/AssignmentUtil';
+import {PromiseWrapper, tick} from '@src/util/AssignmentUtil';
 
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 import {ACCOUNT_NOT_FOUND_ERROR, LOGIN_FAILED_ERROR, RouteError} from '@src/helper/Error';
@@ -14,16 +14,17 @@ import {IAccount} from "@src/models/Account";
  */
 async function login(username: string, password: string): Promise<IAccount> {
   // Fetch user
-  const account: IAccount | null = await AccountRepository.getOne(username);
-  if (!account) {
-    throw new RouteError(
-      HttpStatusCodes.UNAUTHORIZED,
-      ACCOUNT_NOT_FOUND_ERROR
-    );
+  const accounts: IAccount[] = await AccountRepository.getAll({
+    username: username,
+  });
+  if(accounts.length === 0) {
+    throw new RouteError(HttpStatusCodes.UNAUTHORIZED, ACCOUNT_NOT_FOUND_ERROR);
   }
+
+  const account = accounts[0];
   // Check password
   const hash = (account.password ?? ''),
-    pwdPassed = await PwdUtil.compare(password, hash);
+    pwdPassed = await PromiseWrapper(PwdUtil.compare(password, hash));
   if (!pwdPassed) {
     // If password failed, wait 500ms this will increase security
     await tick(500);
