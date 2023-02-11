@@ -32,9 +32,16 @@ async function persists(id: string): Promise<boolean> {
 /**
  * Get all orders.
  */
-async function getAll(): Promise<Array<IOrder>> {
+async function getAll(filter: IOrder): Promise<IOrder[]> {
   const db = await orm.openDb();
-  return db.orders;
+  return db.orders.filter(order =>
+      (filter.createdBy == undefined || order.createdBy === filter.createdBy) &&
+      (filter.dateCreated == undefined || order.dateCreated === filter.dateCreated) &&
+      (filter.orderStatus == undefined || order.orderStatus === filter.orderStatus) &&
+      (filter.totalAmount == undefined || order.totalAmount === filter.totalAmount) &&
+      (filter.netAmount == undefined || order. netAmount === filter.netAmount) &&
+      (filter.deliverTo == undefined || order.deliverTo === filter.deliverTo)
+  );
 }
 
 /**

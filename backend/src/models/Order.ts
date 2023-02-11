@@ -9,13 +9,13 @@ import {IProductCount} from "@src/constants/AssignmentInterfaces";
 // **** Types **** //
 
 export interface IOrder {
-  orderId: string;
-  createdBy: string; // account id fo the account which created the order
-	dateCreated: Date;
-	orderStatus: OrderStatus;
-	orderItems: Array<IProductCount>; // product ids and their count of all  products in this order
-	totalAmount: number;
-	netAmount: number;
+  orderId?: string;
+  createdBy?: string; // account id fo the account which created the order
+	dateCreated?: Date;
+	orderStatus?: OrderStatus;
+	orderItems?: Array<IProductCount>; // product ids and their count of all  products in this order
+	totalAmount?: number;
+	netAmount?: number;
 	deliverTo?: string; // user id to which to deliver the order
 	appliedDiscount?: IDiscount
 }

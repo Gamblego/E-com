@@ -5,11 +5,11 @@ import { IAccount } from './Account';
 // **** Types **** //
 
 export interface IDiscount {
-  discountId: string,
-	dateCreated: Date,
-	discountPercentage: number,
-	discountStatus: DiscountStatus,
-	createdTo: string // account id of the account for which discount was created
+  discountId?: string,
+	dateCreated?: Date,
+	discountPercentage?: number,
+	discountStatus?: DiscountStatus,
+	createdTo?: string // account id of the account for which discount was created
 }
 
 // **** Functions **** //

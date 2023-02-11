@@ -1,7 +1,4 @@
 import { TAll } from 'jet-validator';
-import { IOrder } from './Order';
-import { IDiscount } from './Discount';
-import { IUser } from './User';
 import { AccountStatus, Privilege } from '@src/constants/AssignmentEnums';
 
 // **** Types **** //
@@ -15,7 +12,7 @@ export interface IAccount {
 	privilege: Privilege;
 	savedUsers?: Array<string>; // userId of saved users
 	orderCount?: number;
-	cart?: IOrder;
+	cart?: string; // order if of current order
 	discounts?: Array<string>; // discountId of discounts for this account
 }
 

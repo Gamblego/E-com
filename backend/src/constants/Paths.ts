@@ -32,6 +32,11 @@ const Paths = {
     All: '/search',
     Get: '/:productId',
     Delete: '/:productId'
+  },
+  Admin: {
+    Base: '/admin',
+    Summary: '/summary',
+    DiscountCode: '/discount-code/:accountId',
   }
 };
 

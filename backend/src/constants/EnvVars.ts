@@ -25,4 +25,5 @@ export default {
     Secret: (process.env.JWT_SECRET ??  ''),
     Exp: (process.env.COOKIE_EXP ?? ''), // exp at the same time as the cookie
   },
+  N_VALUE : (process.env.N_VALUE ?? "10")
 } as const;

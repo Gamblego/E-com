@@ -32,9 +32,14 @@ async function persists(id: string): Promise<boolean> {
 /**
  * Get all discounts.
  */
-async function getAll(): Promise<Array<IDiscount>> {
+async function getAll(filter: IDiscount): Promise<IDiscount[]> {
   const db = await orm.openDb();
-  return db.discounts;
+  return db.discounts.filter(discount =>
+      (filter.discountStatus == undefined || discount.discountStatus === filter.discountStatus) &&
+      (filter.dateCreated == undefined || discount.dateCreated === filter.dateCreated) &&
+      (filter.discountPercentage == undefined || discount.discountPercentage === filter.discountPercentage) &&
+      (filter.createdTo == undefined || discount.createdTo === filter.createdTo)
+  );
 }
 
 /**
