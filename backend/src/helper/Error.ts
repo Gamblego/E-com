@@ -103,3 +103,8 @@ export const NTH_ORDER_ERROR: IError = {
   code: "NTH_ORDER_ERROR",
   message: "Discount cannot be applied on this order"
 }
+
+export const ORDER_NOT_FOUND_ERROR: IError = {
+  code: "ORDER_NOT_FOUND_ERROR",
+  message: "The request order does not exist"
+}

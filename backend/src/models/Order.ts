@@ -1,8 +1,5 @@
 import { TAll } from 'jet-validator';
-import { IAccount } from './Account';
-import { IProduct } from './Product';
 import { IDiscount } from './Discount';
-import { IUser } from './User';
 import { OrderStatus } from '@src/constants/AssignmentEnums';
 import {IProductCount} from "@src/constants/AssignmentInterfaces";
 
@@ -17,7 +14,7 @@ export interface IOrder {
 	totalAmount?: number;
 	netAmount?: number;
 	deliverTo?: string; // user id to which to deliver the order
-	appliedDiscount?: IDiscount
+	appliedDiscount?: string // discount id of the applied discount
 }
 
 

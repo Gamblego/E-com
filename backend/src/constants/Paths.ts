@@ -37,6 +37,15 @@ const Paths = {
     Base: '/admin',
     Summary: '/summary',
     DiscountCode: '/discount-code/:accountId',
+  },
+  Order: {
+    Base: '/order',
+    All: '/search',
+    Get: '/:orderId',
+    Delete: '/:orderId',
+    Checkout: '/:orderId/checkout',
+    AddProduct: '/:orderId/products',
+    AddDiscount: '/:orderId/discount'
   }
 };
 
