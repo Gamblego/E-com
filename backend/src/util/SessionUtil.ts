@@ -6,6 +6,8 @@ import jsonwebtoken from 'jsonwebtoken';
 
 import EnvVars from '../constants/EnvVars';
 import {IError} from "@src/schemaobjects/IError";
+import {Privilege} from "@src/constants/AssignmentEnums";
+import {ISessionAccount} from "@src/models/Account";
 
 
 // Options
@@ -22,9 +24,7 @@ const Options = {
 function getSessionData<T>(req: Request): Promise<IError | T | undefined> {
   const { Key } = EnvVars.CookieProps,
     jwt = req.signedCookies[Key];
-  if(!jwt) {
-    throw new RouteError(HttpStatusCodes.UNPROCESSABLE_ENTITY, JWT_VALIDATION_ERROR);
-  }
+  if(!jwt) return Promise.resolve(undefined);
   return _decode(jwt);
 }
 

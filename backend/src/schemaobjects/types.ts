@@ -1,11 +1,12 @@
 import {IAccount} from "@src/models/Account";
 import {IProduct} from "@src/models/Product";
+import {TUserRequest} from "@src/schemaobjects/request/TUserRequest";
 
 export type TAccountRequestKeys = "username" | "accountStatus" |
-    "dateCreated" | "savedUsers";
+    "dateCreated";
 
-export type TAccountRequest = Pick<IAccount, TAccountRequestKeys |
-    "password">;
+export type TAccountRequest = Pick<IAccount, TAccountRequestKeys | "password"> & TUserRequest;
+
 export type TAccountResponseKeys = "accountId" | "username" |
     "accountStatus" | "dateCreated" | "savedUsers" | "cart" | "discounts";
 
@@ -36,7 +37,7 @@ export type TAccountResponse = Pick<IAccount, TAccountResponseKeys>;
  *        dateCreated: 2022-02-10T12:30:00
  *        orderCount: 2
 */
-export type TAccountSearchRequest = Partial<Pick<IAccount, Exclude<TAccountRequestKeys, "savedUsers"> | "orderCount">>;
+export type TAccountSearchRequest = Partial<Pick<IAccount, TAccountRequestKeys | "orderCount">>;
 
 /**
  * @swagger

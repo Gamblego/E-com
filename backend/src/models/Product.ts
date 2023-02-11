@@ -1,5 +1,4 @@
 import { TAll } from 'jet-validator';
-import { IAccount } from './Account';
 
 // **** Types **** //
 

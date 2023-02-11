@@ -3,7 +3,9 @@ import SessionUtil from '@src/util/SessionUtil';
 import AuthService from '@src/services/AuthenticationService';
 
 import { IReq, IRes } from '@src/constants/AssignmentInterfaces';
-import {IAccount} from "@src/models/Account";
+import {IAccount, ISessionAccount} from "@src/models/Account";
+import {INVALID_REQUEST_ERROR, RouteError, USER_UNAUTHORIZED_ERROR} from "@src/helper/Error";
+import {PromiseWrapper} from "@src/util/AssignmentUtil";
 
 
 // **** Types **** //
@@ -27,8 +29,13 @@ interface ILoginReq {
  */
 async function login(request: IReq<ILoginReq>, response: IRes): Promise<IRes> {
   const { username, password } = request.body;
+  const webToken: ISessionAccount = response.locals.sessionUser!;
+  // If user is already logged in then login is invalid
+  if(webToken.accountId !== '') {
+    throw new RouteError(HttpStatusCodes.UNAUTHORIZED, USER_UNAUTHORIZED_ERROR);
+  }
   // Login
-  const account: IAccount = await AuthService.login(username, password);
+  const account: IAccount = await PromiseWrapper(AuthService.login(username, password));
   // Setup Admin Cookie
   await SessionUtil.addSessionData(response, {
     id: account.accountId,
@@ -49,6 +56,10 @@ async function login(request: IReq<ILoginReq>, response: IRes): Promise<IRes> {
  * @remarks clears the session cookie associated with the request
  */
 function logout(request: IReq, response: IRes): IRes {
+  const webToken: ISessionAccount = response.locals.sessionUser!;
+  if(webToken.accountId !== '') {
+    throw new RouteError(HttpStatusCodes.UNPROCESSABLE_ENTITY, INVALID_REQUEST_ERROR);
+  }
   SessionUtil.clearCookie(response);
   return response.status(HttpStatusCodes.OK).end();
 }

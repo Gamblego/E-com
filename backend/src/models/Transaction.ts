@@ -7,10 +7,10 @@ import { IOrder } from './Order';
 
 export interface ITransaction {
   transactionId: string;
-  order: IOrder;
+  order: string; // order id of the order for which this transaction is created
   dateCreated: Date;
 	amountPayable: number;
-	initiatedBy: IAccount;
+	initiatedBy: string; // account id of the account which initiated the transaction
 	status: TransactionStatus
 }
 
@@ -21,7 +21,7 @@ export interface ITransaction {
  */
 function new_
 (
-	order: IOrder, initiatedBy: IAccount, amountPayable?: number
+	order: string, initiatedBy: string, amountPayable?: number
 ): ITransaction {
   return {
     transactionId: '',

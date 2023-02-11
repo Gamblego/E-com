@@ -6,10 +6,10 @@ import orm from './MockOrm';
 /**
  * Get one user.
  */
-async function getOne(email: string): Promise<IUser | null> {
+async function getOne(userId: string): Promise<IUser | null> {
   const db = await orm.openDb();
   for (const user of db.users) {
-    if (user.email === email) {
+    if (user.email === userId) {
       return user;
     }
   }
@@ -32,9 +32,13 @@ async function persists(id: string): Promise<boolean> {
 /**
  * Get all users.
  */
-async function getAll(): Promise<Array<IUser>> {
+async function getAll(filter: IUser): Promise<IUser[]> {
   const db = await orm.openDb();
-  return db.users;
+  return db.users.filter(user =>
+    (filter.firstName === undefined || filter.firstName === user.firstName) &&
+    (filter.lastName === undefined || filter.lastName === user.lastName) &&
+    (filter.createdBy === undefined || filter.createdBy === user.createdBy)
+  );
 }
 
 /**

@@ -16,11 +16,10 @@ const Paths = {
     Logout: '/logout',
   },
   Users: {
-    Base: '/users',
-    Get: '/all',
-    Add: '/add',
-    Update: '/update',
-    Delete: '/delete/:id',
+    Base: '/user',
+    All: '/search',
+    Get: '/:userId',
+    Delete: '/delete/:userId',
   },
   Account: {
     Base: '/account',
@@ -33,6 +32,20 @@ const Paths = {
     All: '/search',
     Get: '/:productId',
     Delete: '/:productId'
+  },
+  Admin: {
+    Base: '/admin',
+    Summary: '/summary',
+    DiscountCode: '/discount-code/:accountId',
+  },
+  Order: {
+    Base: '/order',
+    All: '/search',
+    Get: '/:orderId',
+    Delete: '/:orderId',
+    Checkout: '/:orderId/checkout',
+    AddProduct: '/:orderId/products',
+    AddDiscount: '/:orderId/discount'
   }
 };
 

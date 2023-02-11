@@ -1,22 +1,20 @@
 import { TAll } from 'jet-validator';
-import { IAccount } from './Account';
-import { IProduct } from './Product';
 import { IDiscount } from './Discount';
-import { IUser } from './User';
 import { OrderStatus } from '@src/constants/AssignmentEnums';
+import {IProductCount} from "@src/constants/AssignmentInterfaces";
 
 // **** Types **** //
 
 export interface IOrder {
-  orderId: string;
-  createdBy: IAccount;
-	dateCreated: Date;
-	orderStatus: OrderStatus;
-	orderItems: Array<IProduct>;
-	totalAmount: number;
-	netAmount: number;
-	deliverTo?: IUser;
-	appliedDiscount?: IDiscount
+  orderId?: string;
+  createdBy?: string; // account id fo the account which created the order
+	dateCreated?: Date;
+	orderStatus?: OrderStatus;
+	orderItems?: Array<IProductCount>; // product ids and their count of all  products in this order
+	totalAmount?: number;
+	netAmount?: number;
+	deliverTo?: string; // user id to which to deliver the order
+	appliedDiscount?: string // discount id of the applied discount
 }
 
 
@@ -27,7 +25,7 @@ export interface IOrder {
  */
 function new_
 (
-	createdBy: IAccount, orderStatus?: OrderStatus, orderItems?: Array<IProduct>, 
+	createdBy: string, orderStatus?: OrderStatus, orderItems?: Array<IProductCount>,
 	totalAmount?: number, netAmount?: number
 ): IOrder {
   return {
@@ -35,7 +33,7 @@ function new_
     createdBy: createdBy,
 		dateCreated: new Date(),
 		orderStatus: (orderStatus ?? OrderStatus.PENDING),
-		orderItems: (orderItems ?? new Array()),
+		orderItems: (orderItems ?? []),
 		totalAmount: (totalAmount ?? 0.0),
 		netAmount: (netAmount ?? 0.0)
   };

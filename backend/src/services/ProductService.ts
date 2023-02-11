@@ -25,7 +25,7 @@ import ProductRepository from "@src/repository/ProductRepository";
  * @see IListResponse
  */
 async function getAllProductsMatchingFilter(product: TProductSearchRequest): Promise<IListResponse<IProduct>> {
-  const products: IProduct[] = await PromiseWrapper(ProductRepository.getAll(product), DB_ERROR);
+  const products: IProduct[] = await PromiseWrapper(ProductRepository.getAll(product));
   return {
     totalRecords: products.length,
     data: products
@@ -41,7 +41,7 @@ async function getAllProductsMatchingFilter(product: TProductSearchRequest): Pro
  * @see IProduct
  */
 async function getProduct(productId: string): Promise<IProduct> {
-  const product: IProduct | null = await PromiseWrapper(ProductRepository.getOne(productId), DB_ERROR);
+  const product: IProduct | null = await PromiseWrapper(ProductRepository.getOne(productId));
   if(!product) {
     throw new RouteError(HttpStatusCodes.NOT_FOUND, PRODUCT_NOT_FOUND_ERROR);
   }
@@ -71,7 +71,7 @@ async function createProduct(productCreateRequest: TProductCreateRequest): Promi
     seller: productCreateRequest.seller
   }
 
-  await PromiseWrapper(ProductRepository.add(product), DB_ERROR);
+  await PromiseWrapper(ProductRepository.add(product));
 
   return {
     id: product.productId
@@ -93,7 +93,7 @@ async function deleteProduct(productId: string): Promise<ISaveResponse> {
     throw new RouteError(HttpStatusCodes.UNPROCESSABLE_ENTITY, ID_IS_MANDATORY_ERROR);
   }
 
-  const productFound: boolean = await PromiseWrapper(ProductRepository.delete(productId), DB_ERROR);
+  const productFound: boolean = await PromiseWrapper(ProductRepository.delete(productId));
 
   if(!productFound) {
     throw new RouteError(HttpStatusCodes.NOT_FOUND, PRODUCT_NOT_FOUND_ERROR);

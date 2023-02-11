@@ -4,20 +4,18 @@
 import {IAccount, ISessionAccount} from "@src/models/Account";
 import AccountRepository from "@src/repository/AccountRepository";
 import {
-  DB_ERROR,
   ID_IS_MANDATORY_ERROR,
   INVALID_REQUEST_ERROR,
   RouteError,
   USER_NOT_FOUND_ERROR,
-  USER_UNAUTHORIZED_ERROR
 } from "@src/helper/Error";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
-import httpStatusCodes from "@src/constants/HttpStatusCodes";
 import {IListResponse} from "@src/schemaobjects/response/IListResponse";
 import {TAccountRequest, TAccountResponse, TAccountSearchRequest} from "@src/schemaobjects/types";
 import {ISaveResponse} from "@src/schemaobjects/response/ISaveResponse";
-import {Privilege} from "@src/constants/AssignmentEnums";
-import {CreateId, PromiseWrapper} from "@src/util/AssignmentUtil";
+import {AccountStatus, Privilege} from "@src/constants/AssignmentEnums";
+import {checkParameters, CreateId, PromiseWrapper} from "@src/util/AssignmentUtil";
+import UserService from "@src/services/UserService";
 
 /**
  * get all accounts matching the given filter.
@@ -33,10 +31,7 @@ import {CreateId, PromiseWrapper} from "@src/util/AssignmentUtil";
  * @see TAccountResponse
  */
 async function getAllAccountsMatchingFilter
-(account: TAccountSearchRequest, webToken?: ISessionAccount): Promise<IListResponse<TAccountResponse>> {
-  if(webToken !== undefined && webToken.privilege == Privilege.Client) {
-    throw new RouteError(httpStatusCodes.UNAUTHORIZED, USER_UNAUTHORIZED_ERROR);
-  }
+(account: TAccountSearchRequest): Promise<IListResponse<TAccountResponse>> {
   const accounts: IAccount[] = await AccountRepository.getAll(account);
   const accountsWithPasswordRemoved: TAccountResponse[]
       = accounts.map(account => {
@@ -62,12 +57,8 @@ async function getAllAccountsMatchingFilter
  * whose accountId is different from the accountId provided
  * @see TAccountResponse
  */
-async function getAccount(accountId: string, webToken?: ISessionAccount): Promise<TAccountResponse> {
-  if (webToken !== undefined && webToken.privilege === Privilege.Client && webToken.accountId !== accountId) {
-    throw new RouteError(HttpStatusCodes.UNAUTHORIZED, USER_UNAUTHORIZED_ERROR);
-  }
-
-  const account: IAccount | null = await PromiseWrapper(AccountRepository.getOne(accountId), DB_ERROR);
+async function getAccount(accountId: string): Promise<TAccountResponse> {
+  const account: IAccount | null = await PromiseWrapper(AccountRepository.getOne(accountId));
   if(!account) {
     throw new RouteError(HttpStatusCodes.NOT_FOUND, USER_NOT_FOUND_ERROR);
   }
@@ -86,22 +77,30 @@ async function getAccount(accountId: string, webToken?: ISessionAccount): Promis
  * @see ISaveResponse
  */
 async function createAccount(accountRequest: TAccountRequest): Promise<ISaveResponse> {
-  if(!accountRequest) {
+  if(!checkParameters(accountRequest, ["username", "password", "firstName", "lastName"])) {
     throw new RouteError(HttpStatusCodes.UNPROCESSABLE_ENTITY, INVALID_REQUEST_ERROR);
   }
 
+  const newAccountId = CreateId("account");
+
+  const userSaveResponse: ISaveResponse =
+      await PromiseWrapper(UserService.addOne({
+        accountId: newAccountId,
+        firstName: accountRequest.firstName,
+        lastName: accountRequest.lastName
+      }));
+
   const account: IAccount = {
-    accountId: CreateId("account"),
+    accountId:  newAccountId,
     username: accountRequest.username,
     password: accountRequest.password,
     privilege: Privilege.Client,
-    accountStatus: accountRequest.accountStatus,
-    dateCreated: accountRequest.dateCreated,
-    savedUsers: accountRequest.savedUsers
+    accountStatus: AccountStatus.ACTIVE,
+    dateCreated: new Date(),
+    savedUsers: [userSaveResponse.id]
   }
 
-  await PromiseWrapper(AccountRepository.add(account), DB_ERROR);
-
+  await PromiseWrapper(AccountRepository.add(account));
   return {
     id: account.accountId
   };
@@ -120,7 +119,7 @@ async function deleteAccount(accountId: string): Promise<ISaveResponse> {
     throw new RouteError(HttpStatusCodes.UNPROCESSABLE_ENTITY, ID_IS_MANDATORY_ERROR);
   }
 
-  const accountFound: boolean = await PromiseWrapper(AccountRepository.delete(accountId), DB_ERROR);
+  const accountFound: boolean = await PromiseWrapper(AccountRepository.delete(accountId));
 
   if(!accountFound) {
     throw new RouteError(HttpStatusCodes.NOT_FOUND, USER_NOT_FOUND_ERROR);

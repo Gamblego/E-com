@@ -78,3 +78,33 @@ export const PRODUCT_NOT_FOUND_ERROR: IError = {
   code: "PRODUCT_NOT_FOUND_ERROR",
   message: "The requested product could not be fetched. Please try again later"
 }
+
+export const USER_EXISTS_ERROR: IError = {
+  code: "USER_EXISTS_ERROR",
+  message: "A user with the same username already exists!"
+}
+
+export const NO_CURRENT_ORDER_ERROR: IError = {
+  code: "NO_CURRENT_ORDER_ERROR",
+  message: "User does not have any product in their cart"
+}
+
+export const DISCOUNT_ALREADY_PRESENT_ERROR: IError = {
+  code: "DISCOUNT_ALREADY_PRESENT_ERROR",
+  message: "Discount has already been applied to the order"
+}
+
+export const USER_HAS_DISCOUNT_ERROR: IError = {
+  code: "USER_HAS_DISCOUNT_ERROR",
+  message: "User already has an active discount"
+}
+
+export const NTH_ORDER_ERROR: IError = {
+  code: "NTH_ORDER_ERROR",
+  message: "Discount cannot be applied on this order"
+}
+
+export const ORDER_NOT_FOUND_ERROR: IError = {
+  code: "ORDER_NOT_FOUND_ERROR",
+  message: "The request order does not exist"
+}

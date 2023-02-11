@@ -3,10 +3,11 @@
  */
 
 
-import {IReq, IRes} from "@src/constants/AssignmentInterfaces";
-import {NextFunction} from "express";
-import {IError} from "@src/schemaobjects/IError";
 import logger from "jet-logger";
+import {ISessionAccount} from "@src/models/Account";
+import {Privilege} from "@src/constants/AssignmentEnums";
+import HttpStatusCodes from "@src/constants/HttpStatusCodes";
+import {RouteError, USER_UNAUTHORIZED_ERROR} from "@src/helper/Error";
 
 /**
  * Get a random number between 1 and 1,000,000,000,000
@@ -26,27 +27,23 @@ export function tick(milliseconds: number): Promise<void> {
   });
 }
 
-export function ControllerWrapper (
-    controllerFunction: Function
-): <T = void>(request: IReq<T>, response: IRes, next: NextFunction) => Promise<IRes | void> {
-  return async function<T = void> (request: IReq<T>, response: IRes, next: NextFunction) {
-    try {
-      return await controllerFunction(request, response);
-    } catch (err: any) {
-      next(err);
-    }
-  }
-}
 
 export async function PromiseWrapper<T> (
-    promise: Promise<T>, error: IError
+    promise: Promise<T>
 ):  Promise<T> {
   return await promise.catch(err => {
-    logger.info(`Error occurred while resolving promise [${promise}]: ${error}`);
+    logger.err(`Error: ${JSON.stringify(err)}`);
     throw err;
   });
 }
 
 export function CreateId(model: string) {
   return model.toUpperCase() + Math.floor(Math.random() * 1e5).toString();
+}
+
+export function checkParameters<T extends object>(objectToCheck: T, props: (keyof T)[]): boolean {
+  for(const key in props) {
+    if(objectToCheck[props[key]] == null) return false;
+  }
+  return true;
 }

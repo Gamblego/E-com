@@ -1,6 +1,8 @@
 import { IAccount } from '@src/models/Account';
 import orm from './MockOrm';
 import {TAccountSearchRequest} from "@src/schemaobjects/types";
+import HttpStatusCodes from "@src/constants/HttpStatusCodes";
+import {RouteError, USER_EXISTS_ERROR} from "@src/helper/Error";
 
 // **** Functions **** //
 
@@ -50,6 +52,10 @@ async function getAll(filter: TAccountSearchRequest): Promise<IAccount[]> {
  */
 async function add(account: IAccount): Promise<void> {
   const db = await orm.openDb();
+  const usernameExists: boolean = db.accounts.filter(acc => acc.username === account.username).length > 0;
+  if(usernameExists) {
+    throw new RouteError(HttpStatusCodes.UNPROCESSABLE_ENTITY, USER_EXISTS_ERROR);
+  }
   db.accounts.push(account);
   return orm.saveDb(db);
 }

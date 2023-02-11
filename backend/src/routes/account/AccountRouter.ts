@@ -2,15 +2,19 @@ import {Router} from "express";
 import JetValidator from "jet-validator";
 
 import AccountController from "@src/routes/account/AccountController";
-import Paths from "@src/constants/Paths";
-import {ControllerWrapper} from "@src/util/AssignmentUtil";
+import Paths, {DEFAULT_PATH} from "@src/constants/Paths";
 
 const accountRouter = Router(), validate = JetValidator();
 
 /**
  * @swagger
+ * tags:
+ *  name: Account
+ *  description: The Account API
  * /api/account/all:
  *  post:
+ *    tags:
+ *      - Account
  *    description: returns a list of all accounts satisfying the provided request
  *    consumes:
  *      - application/json
@@ -37,13 +41,15 @@ const accountRouter = Router(), validate = JetValidator();
  */
 accountRouter.post(
     Paths.Account.All,
-    ControllerWrapper(AccountController.getAll),
+    AccountController.getAll,
 );
 
 /**
  * @swagger
  * /api/account/:accountId:
  *  delete:
+ *    tags:
+ *      - Account
  *    description: returns a single account entity whose id matches the provided accountId
  *    parameters:
  *      - in: path
@@ -72,14 +78,16 @@ accountRouter.post(
  */
 accountRouter.get(
     Paths.Account.Get,
-    validate(['id', 'string', 'params']),
-    ControllerWrapper(AccountController.getOne),
+    validate(['accountId', 'string', 'params']),
+    AccountController.getOne,
 );
 
 /**
  * @swagger
  * /api/account/:accountId:
  *  get:
+ *    tags:
+ *      - Account
  *    description: deletes the account entity whose id matches the provided accountId
  *    parameters:
  *      - in: path
@@ -106,14 +114,16 @@ accountRouter.get(
  */
 accountRouter.delete(
     Paths.Account.Delete,
-    validate(['id', 'string', 'params']),
-    ControllerWrapper(AccountController.deleteOne),
+    validate(['accountId', 'string', 'params']),
+    AccountController.deleteOne,
 );
 
 /**
  * @swagger
  * /api/account/:
  *  post:
+ *    tags:
+ *      - Account
  *    description: creates a new account with the given parameters
  *    consumes:
  *      - application/json
@@ -143,9 +153,8 @@ accountRouter.delete(
  *              $ref: '#/components/schemas/Error'
  */
 accountRouter.post(
-    Paths.Account.Base,
-    validate('accountId', 'username', 'password'),
-    ControllerWrapper(AccountController.createOne),
+    DEFAULT_PATH,
+    AccountController.createOne,
 );
 
 export default accountRouter;
