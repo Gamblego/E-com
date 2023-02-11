@@ -78,3 +78,8 @@ export const PRODUCT_NOT_FOUND_ERROR: IError = {
   code: "PRODUCT_NOT_FOUND_ERROR",
   message: "The requested product could not be fetched. Please try again later"
 }
+
+export const USER_EXISTS_ERROR: IError = {
+  code: "USER_EXISTS_ERROR",
+  message: "A user with the same username already exists!"
+}

@@ -3,7 +3,8 @@ import { TAll } from 'jet-validator';
 // **** Types **** //
 
 export interface IUser {
-  userId: string
+  userId?: string
+  createdBy?: string // account id of the account to which the user belongs
   isOwner?: boolean
   firstName?: string,
   lastName?: string,

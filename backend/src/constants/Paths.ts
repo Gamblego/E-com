@@ -16,11 +16,10 @@ const Paths = {
     Logout: '/logout',
   },
   Users: {
-    Base: '/users',
-    Get: '/all',
-    Add: '/add',
-    Update: '/update',
-    Delete: '/delete/:id',
+    Base: '/user',
+    All: '/search',
+    Get: '/:userId',
+    Delete: '/delete/:userId',
   },
   Account: {
     Base: '/account',
